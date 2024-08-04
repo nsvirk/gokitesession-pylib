@@ -37,7 +37,7 @@ This library provides a Python interface to interact with the Kite trading API u
 
 1. Ensure you have Python 3.6 or later installed.
 
-2. Place the `kitesession.py` file in the same directory as the shared library you just built.
+2. Place the `kite_session.py` and `main.py` file in the same directory as the shared library you just built.
 
 ## Usage
 
@@ -62,6 +62,7 @@ This library provides a Python interface to interact with the Kite trading API u
 2. Run the Python script:
 
    ```
+   cd pylib
    python3.12 kitesession.py
    ```
 
@@ -70,7 +71,7 @@ This library provides a Python interface to interact with the Kite trading API u
 ## Using the Library in Your Own Python Scripts
 
 You can import and use the `KiteSession` class in your own Python scripts:
-For python implementaiton see the `kitesession.py` file
+For python implementaiton see the `kite_session.py` and `main.py` file
 
 ## Important Notes
 
