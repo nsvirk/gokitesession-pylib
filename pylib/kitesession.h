@@ -79,10 +79,10 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-extern char* GenerateSession(char* userID, char* password, char* totpSecret);
+extern char* GenerateTOTPValue(char* totpSecret);
+extern char* GenerateSession(char* userID, char* password, char* totpValue);
 extern char* CheckEnctokenValid(char* enctoken);
 extern void SetDebug(int debug);
-extern void FreeString(char* str);
 
 #ifdef __cplusplus
 }

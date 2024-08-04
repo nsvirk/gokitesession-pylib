@@ -6,7 +6,6 @@ package main
 import "C"
 import (
 	"encoding/json"
-	"unsafe"
 
 	kitesession "github.com/nsvirk/gokitesession"
 )
@@ -17,10 +16,8 @@ func init() {
 	client = kitesession.New()
 }
 
-//export GenerateSession
-func GenerateSession(userID, password, totpSecret *C.char) *C.char {
-	userIDGo := C.GoString(userID)
-	passwordGo := C.GoString(password)
+//export GenerateTOTPValue
+func GenerateTOTPValue(totpSecret *C.char) *C.char {
 	totpSecretGo := C.GoString(totpSecret)
 
 	totpValue, err := kitesession.GenerateTOTPValue(totpSecretGo)
@@ -28,7 +25,16 @@ func GenerateSession(userID, password, totpSecret *C.char) *C.char {
 		return C.CString("error:Failed to generate TOTP value: " + err.Error())
 	}
 
-	session, err := client.GenerateSession(userIDGo, passwordGo, totpValue)
+	return C.CString(totpValue)
+}
+
+//export GenerateSession
+func GenerateSession(userID, password, totpValue *C.char) *C.char {
+	userIDGo := C.GoString(userID)
+	passwordGo := C.GoString(password)
+	totpValueGo := C.GoString(totpValue)
+
+	session, err := client.GenerateSession(userIDGo, passwordGo, totpValueGo)
 	if err != nil {
 		return C.CString("error:" + err.Error())
 	}
@@ -59,11 +65,6 @@ func CheckEnctokenValid(enctoken *C.char) *C.char {
 //export SetDebug
 func SetDebug(debug C.int) {
 	client.SetDebug(int(debug) != 0)
-}
-
-//export FreeString
-func FreeString(str *C.char) {
-	C.free(unsafe.Pointer(str))
 }
 
 func main() {}
